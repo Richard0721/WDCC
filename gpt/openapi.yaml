@@ -1,0 +1,87 @@
+openapi: 3.1.0
+info:
+  title: Index Progress Hub
+  description: Read the latest immutable index progress catalog from a private GitHub repository.
+  version: 1.0.0
+servers:
+  - url: https://api.github.com
+paths:
+  /repos/Richard0721/index-progress-hub/contents/api/progress.json:
+    get:
+      operationId: getLatestIndexProgressCatalog
+      summary: Get all index progress records and the latest record for each index
+      parameters:
+        - name: ref
+          in: query
+          required: true
+          schema:
+            type: string
+            const: catalog
+            default: catalog
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+            const: application/vnd.github.raw+json
+            default: application/vnd.github.raw+json
+        - name: X-GitHub-Api-Version
+          in: header
+          required: true
+          schema:
+            type: string
+            const: "2022-11-28"
+            default: "2022-11-28"
+      responses:
+        "200":
+          description: The generated progress catalog
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Catalog"
+        "401":
+          description: Missing or invalid read-only GitHub token
+        "404":
+          description: Repository or catalog branch is unavailable to the configured token
+components:
+  securitySchemes:
+    githubBearer:
+      type: http
+      scheme: bearer
+  schemas:
+    Document:
+      type: object
+      properties:
+        name: { type: string }
+        path: { type: string }
+        api_url: { type: string, format: uri }
+    Record:
+      type: object
+      properties:
+        schema_version: { type: integer }
+        record_id: { type: string }
+        index_name: { type: string }
+        status: { type: string }
+        progress_percent: { type: integer }
+        updated_at: { type: string, format: date-time }
+        submitted_by: { type: string }
+        summary: { type: string }
+        documents:
+          type: array
+          items: { $ref: "#/components/schemas/Document" }
+    Catalog:
+      type: object
+      properties:
+        schema_version: { type: integer }
+        generated_at: { type: string, format: date-time }
+        repository: { type: string }
+        source_ref: { type: string }
+        record_count: { type: integer }
+        latest_by_index:
+          type: array
+          items: { $ref: "#/components/schemas/Record" }
+        records:
+          type: array
+          items: { $ref: "#/components/schemas/Record" }
+security:
+  - githubBearer: []

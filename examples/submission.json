@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "record_id": "20260914T103000Z-9f4a2c1d",
+  "index_name": "example-index",
+  "status": "in_progress",
+  "progress_percent": 40,
+  "updated_at": "2026-09-14T10:30:00Z",
+  "submitted_by": "your-github-user",
+  "summary": "Completed the first 40% of the index list.",
+  "source_files": [
+    "index-list.csv"
+  ]
+}

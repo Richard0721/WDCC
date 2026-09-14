@@ -1,0 +1,37 @@
+name: Publish GPT catalog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "submissions/**"
+      - "scripts/build_catalog.py"
+      - ".github/workflows/publish-catalog.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-gpt-catalog
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build catalog
+        run: python scripts/build_catalog.py --output "$RUNNER_TEMP/catalog/progress.json"
+      - name: Publish isolated catalog branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan catalog-publish
+          git rm -rf .
+          mkdir -p api
+          cp "$RUNNER_TEMP/catalog/progress.json" api/progress.json
+          printf '%s\n' '# Generated GPT catalog' 'Do not edit this branch manually.' > README.md
+          git add api/progress.json README.md
+          git commit -m "chore: publish GPT catalog for $GITHUB_SHA"
+          git push --force origin HEAD:catalog

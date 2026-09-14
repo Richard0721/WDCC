@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Richard0721/index-progress-hub/schemas/submission.schema.json",
+  "title": "Index progress submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_id", "index_name", "status", "progress_percent", "updated_at", "submitted_by", "summary", "source_files"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "record_id": { "type": "string", "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$" },
+    "index_name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "status": { "enum": ["not_started", "in_progress", "blocked", "complete"] },
+    "progress_percent": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "submitted_by": { "type": "string", "pattern": "^[A-Za-z0-9-]{1,39}$" },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "source_files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,199}$" }
+    }
+  }
+}

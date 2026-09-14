@@ -1,0 +1,7 @@
+# Repository policy and automation must be reviewed by the owner.
+/.github/ @Richard0721
+/scripts/ @Richard0721
+/schemas/ @Richard0721
+/gpt/ @Richard0721
+/README.md @Richard0721
+/CONTRIBUTING.md @Richard0721
