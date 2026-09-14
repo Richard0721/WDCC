@@ -12,12 +12,22 @@ jobs:
     name: Validate immutable submission
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out proposed changes
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Validate append-only records
+          path: candidate
+          persist-credentials: false
+      - name: Check out trusted validator from main
+        uses: actions/checkout@v4
+        with:
+          ref: "${{ github.event.pull_request.base.sha }}"
+          path: policy
+          persist-credentials: false
+      - name: Validate append-only records with trusted policy
+        working-directory: candidate
         run: >-
-          python scripts/validate_submission.py
+          python ../policy/scripts/validate_submission.py
           --base "${{ github.event.pull_request.base.sha }}"
           --head "${{ github.event.pull_request.head.sha }}"
           --actor "${{ github.actor }}"

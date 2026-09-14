@@ -123,6 +123,8 @@ def validate_manifest(manifest_path: Path, actor: str | None, errors: list[str])
             fail(errors, f"{relative}: unsupported source file type {name!r}")
         listed.add(name)
         path = bundle_dir / name
+        if path.is_symlink():
+            fail(errors, f"{relative}: symbolic links are not allowed: {name}")
         if not path.is_file():
             fail(errors, f"{relative}: listed source file is missing: {name}")
 
@@ -131,6 +133,9 @@ def validate_manifest(manifest_path: Path, actor: str | None, errors: list[str])
         fail(errors, f"{relative}: source_files must exactly list bundle files; actual={sorted(actual)}, listed={sorted(listed)}")
     total = 0
     for path in bundle_dir.iterdir():
+        if path.is_symlink():
+            fail(errors, f"{path.as_posix()}: symbolic links are not allowed")
+            continue
         if not path.is_file():
             fail(errors, f"{relative}: nested directories are not allowed")
             continue
