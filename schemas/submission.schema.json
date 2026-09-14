@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Richard0721/index-progress-hub/schemas/submission.schema.json",
+  "$id": "https://github.com/Richard0721/WDCC/schemas/submission.schema.json",
   "title": "Index progress submission",
   "type": "object",
   "additionalProperties": false,

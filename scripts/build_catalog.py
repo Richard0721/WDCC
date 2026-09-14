@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote
 
-REPOSITORY = "Richard0721/index-progress-hub"
+REPOSITORY = "Richard0721/WDCC"
 
 
 def api_url(path: str) -> str:

@@ -21,21 +21,17 @@
 
 ## GPT 读取
 
-GPT Action 配置位于 `gpt/openapi.yaml`，GPT 指令位于 `gpt/GPT_INSTRUCTIONS.md`。仓库是私有时，为 GPT 单独创建一个细粒度 GitHub token，仅授予本仓库 `Contents: Read-only`，不要复用你的个人全权限 token。
+GPT Action 配置位于 `gpt/openapi.yaml`，GPT 指令位于 `gpt/GPT_INSTRUCTIONS.md`。当前仓库是公开的，Action 只读且无需 token。
 
 GPT 读取的稳定资源：
 
 ```text
-GET https://api.github.com/repos/Richard0721/index-progress-hub/contents/api/progress.json?ref=catalog
+GET https://api.github.com/repos/Richard0721/WDCC/contents/api/progress.json?ref=catalog
 Accept: application/vnd.github.raw+json
-Authorization: Bearer <read-only token>
 ```
 
 ## 管理员设置
 
-要把“不覆盖”变成强制规则，`main` 必须禁止直接 push，并要求 PR 的 `Validate immutable submission` 检查通过。当前仓库为私有且 GitHub 账户无 Pro，GitHub 不允许启用该规则。可选方案：
-
-- 保持私有：升级 GitHub Pro，启用规则后再给成员 `Write` 权限。
-- 改为公开：免费启用规则；上传者通过 fork + PR，无需给 `Write` 权限。
+要把“不覆盖”变成强制规则，`main` 禁止普通协作者直接 push，并要求 PR 的 `Validate immutable submission` 检查通过。当前仓库为公开仓库，上传者通过 fork + PR，无需授予 `Write` 权限。
 
 GitHub Project 看板不会自动授予仓库权限。

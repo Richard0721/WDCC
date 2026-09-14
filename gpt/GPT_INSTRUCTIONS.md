@@ -13,7 +13,7 @@
 ## 配置步骤
 
 1. 在 GPT 的 Actions 中导入 `gpt/openapi.yaml`。
-2. 认证方式选 API key / Bearer，填入仅授予 `Richard0721/index-progress-hub` 的 fine-grained token。
-3. Token 只授予 `Repository permissions -> Contents: Read-only`；不授予 Issues、Pull requests、Administration 或 Contents 写入权限。
+2. 认证方式选“无”；公开仓库的目录接口不需要 token。
+3. 若仓库之后改回私有，再改用仅授予 `Richard0721/WDCC` 的 fine-grained token，权限仅为 `Contents: Read-only`。
 4. 把本文件上方的指令加入 GPT 的 Instructions。
 5. 用“列出所有索引的最新进度”测试 Action。
